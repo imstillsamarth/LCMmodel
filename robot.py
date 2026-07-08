@@ -299,7 +299,8 @@ class Robot:
         # underflow / rounding) -> elapsed_time == 0 strands the robot at its start,
         # which then re-LOOKs forever (the endless-simulation bug).
         if (self.state == RobotState.MOVE and self.start_time is not None
-                and self.calculated_position is not None and self.rigid_movement):
+                and self.calculated_position is not None
+                and (self.rigid_movement or time <= self.start_time + 1e-12)):
             final_pos = self.calculated_position
         else:
             final_pos = self.get_position(time)
